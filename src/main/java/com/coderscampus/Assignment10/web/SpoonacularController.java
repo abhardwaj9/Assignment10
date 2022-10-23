@@ -20,13 +20,13 @@ public class SpoonacularController {
 	RestTemplate temp = new RestTemplate();
 	
 	@GetMapping("mealplanner/week")
-	public ResponseEntity<WeekResponse> getWeekMeals(String numCalories, String diet, String exclusions) {
+	public ResponseEntity<WeekResponse> getWeekMeals(@RequestParam Optional<String> numCalories, @RequestParam Optional<String> diet, @RequestParam Optional<String> exclusions) {
 	
 		
  		URI url = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
  									  .queryParam("timeFrame", "week")
  									  .queryParam("diet", diet)
- 									  .queryParam("targetCalories", numCalories)
+ 									  .queryParam("targetCalories", numCalories.isPresent()? numCalories.get():0)
  									  .queryParam("exclude", exclusions)				
  									  .queryParam("apiKey", "376f68413e1448c982fc087cc34bee90")
  									  .build()
@@ -43,12 +43,12 @@ public class SpoonacularController {
 		URI url = UriComponentsBuilder.fromHttpUrl("https://api.spoonacular.com/mealplanner/generate")
 									  .queryParam("timeFrame", "day")
 									  .queryParam("diet", diet)
-									  .queryParam("targetCalories", numCalories)
+									  .queryParam("targetCalories", numCalories.isPresent()?numCalories.get():0)
 									  .queryParam("exclude", exclusions)		
 									  .queryParam("apiKey", "376f68413e1448c982fc087cc34bee90")
 									  .build()
 									  .toUri();
-
+		
 		ResponseEntity<DayResponse> dayResponse = temp.getForEntity(url, DayResponse.class);
 		return dayResponse;
 	
