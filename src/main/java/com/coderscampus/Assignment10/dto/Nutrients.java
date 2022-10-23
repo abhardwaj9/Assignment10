@@ -1,4 +1,4 @@
-package com.codedrcampus.Assignment10.dto;
+package com.coderscampus.Assignment10.dto;
 
 public class Nutrients {
 	private Double calories;
